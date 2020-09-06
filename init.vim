@@ -1,6 +1,7 @@
 language en_US
 
-call plug#begin('C:\Users\Nick64\AppData\Local\nvim\plugged')
+"call plug#begin('C:\Users\Nick\AppData\Local\nvim\plugged')
+call plug#begin()
 Plug 'cespare/vim-toml'
 Plug 'airblade/vim-rooter'
 Plug 'machakann/vim-highlightedyank'
@@ -16,11 +17,23 @@ Plug 'dense-analysis/ale'
 Plug 'scrooloose/nerdtree'
 Plug 'srstevenson/vim-picker'
 Plug 'rust-lang/rust.vim'
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'powerline/fonts'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc'
-Plug 'ycm-core/YouCompleteMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+"if has('win32')
+"    Plug 'autozimu/LanguageClient-neovim', {
+"        \ 'branch': 'next',
+"        \ 'do': 'powershell -executionpolicy bypass -File install.ps1',
+"        \ }
+"else
+"    Plug 'autozimu/LanguageClient-neovim', {
+"        \ 'branch': 'next',
+"        \ 'do': 'bash install.sh',
+"        \ }
+"endif
+":Plug 'ycm-core/YouCompleteMe'
 "Plug 'vim-syntastic/syntastic'
 call plug#end()
 
@@ -35,7 +48,7 @@ set encoding=utf-8
 
 set number
 set undofile
-set undodir=%APPDATA%\Local\nvim\.vimdid
+set undodir=$HOME\.vimdid
 syntax on
 "set guifont=DejaVu\ Sans:s12
 ":execute 'GuiFont! DejaVu Sans Mono:h11'
@@ -68,6 +81,17 @@ let g:picker_selector_flags = ''
 let g:picker_custom_find_executable = 'rg' " ripgrep (windows <3)
 let g:picker_custom_find_flags = '--color never --files'
 
+let g:ycm_language_server =
+\ [
+\   {
+\     'name': 'rust',
+\     'cmdline': ['rust-analyzer'],
+\     'filetypes': ['rust'],
+\     'project_root_files': ['Cargo.toml']
+\   }
+\ ]
+
+let g:ale_linters = {'rust': ['analyzer']}
 let g:ale_completion_enabled = 1
 let g:ale_rust_cargo_use_check = 1
 let g:ale_rust_cargo_avoid_whole_workspace = 0
@@ -85,7 +109,7 @@ set omnifunc=ale#completion#OmniFunc
 
 " LanguageClient settings
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'rust': ['rustup', 'run', 'nightly', 'rust-analyzer'],
 \ }
 let g:LanguageClient_autoStart = 1
 
