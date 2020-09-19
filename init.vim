@@ -1,4 +1,4 @@
-language en_US
+language en_US.UTF-8
 
 "call plug#begin('C:\Users\Nick\AppData\Local\nvim\plugged')
 call plug#begin()
